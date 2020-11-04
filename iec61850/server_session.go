@@ -182,7 +182,7 @@ func (sf *SrvSession) run(ctx context.Context) {
 	}
 	sendUFrame := func(which byte) {
 		sf.Debug("TX uFrame %v", uAPCI{which})
-		sf.sendRaw <- newUFrame(which)
+		sf.sendRaw <- newInitFrame()
 	}
 
 	sendIFrame := func(asdu1 []byte) {
