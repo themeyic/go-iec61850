@@ -204,7 +204,7 @@ func (sf *Client) recvLoop() {
 			sf.sendRaw <- newSecondUFrame()
 		} else if (strings.Contains(theIec61850Data, "a416800101810305f1")) {
 			//sf.sendRaw <- newThreeUFrame(byte(1))
-			sf.sendRaw <- newFineUFrame(byte(1))
+			sf.sendRaw <- newFineUFrame()
 		}else if(strings.Contains(theIec61850Data,"0103a010a10e020111a409a107a205a20385")){
 			//fmt.Println("所以这个",test)
 			theValue := HexStringToBytes(theIec61850Data)
