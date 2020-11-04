@@ -201,7 +201,7 @@ func (sf *Client) recvLoop() {
 		sf.Debug("RX Raw[% x]", rawData)
 		theIec61850Data := fmt.Sprintf("%x", rawData)
 		if (strings.Contains(theIec61850Data, "0300001611")) {
-			sf.sendRaw <- newSecondUFrame(byte(1))
+			sf.sendRaw <- newSecondUFrame()
 		} else if (strings.Contains(theIec61850Data, "a416800101810305f1")) {
 			//sf.sendRaw <- newThreeUFrame(byte(1))
 			sf.sendRaw <- newFineUFrame(byte(1))
@@ -437,14 +437,12 @@ loop:
 	}
 }
 
-func (sf *Client) sendUFrame(which byte) {
-	sf.Debug("TX uFrame %v", uAPCI{which})
-	sf.sendRaw <- newUFrame(which)
+func (sf *Client) sendInitFrame() {
+	sf.sendRaw <- newInitFrame()
 }
 
-func (sf *Client) sendSecondUFrame(which byte) {
-	sf.Debug("TX uFrame %v", uAPCI{which})
-	sf.sendRaw <- newSecondUFrame(which)
+func (sf *Client) sendSecondUFrame() {
+	sf.sendRaw <- newSecondUFrame()
 }
 
 
@@ -554,20 +552,20 @@ func (sf *Client) Close() error {
 // SendStartDt start data transmission on this connection
 func (sf *Client) SendStartDt() {
 	sf.startDtActiveSendSince.Store(time.Now())
-	sf.sendUFrame(uStartDtActive)
+	sf.sendInitFrame()
 }
 
 //Second
 func (sf *Client) SendSecondStartDt() {
 	sf.startDtActiveSendSince.Store(time.Now())
-	sf.sendSecondUFrame(uStartDtActive)
+	sf.sendSecondUFrame()
 }
 
 
 // SendStopDt stop data transmission on this connection
 func (sf *Client) SendStopDt() {
 	sf.stopDtActiveSendSince.Store(time.Now())
-	sf.sendUFrame(uStopDtActive)
+	sf.sendInitFrame()
 }
 
 //InterrogationCmd wrap asdu.InterrogationCmd
