@@ -159,6 +159,9 @@ var endMark int
 func (sf *Client) recvLoop() {
 	sf.Debug("recvLoop started")
 	defer func() {
+		if r := recover(); r != nil{
+			fmt.Println("panic",r)
+		}
 		sf.cancel()
 		sf.wg.Done()
 		sf.Debug("recvLoop stopped")
