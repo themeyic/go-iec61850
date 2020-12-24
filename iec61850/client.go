@@ -212,7 +212,9 @@ func (sf *Client) recvLoop() {
 			//fmt.Println("所以这个",test)
 			theValue := HexStringToBytes(theIec61850Data)
 			Transfer <- theValue[39]
-		}
+		}else{
+		        Transfer <- 0	
+		}	
 	}
 }
 
